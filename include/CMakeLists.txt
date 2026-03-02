@@ -15,8 +15,8 @@
 # Using local submodules instead of FetchContent for offline builds.
 # ---------------------------------------------------------------------------
 
-# Use local SeqAn from submodule (at ../seqan relative to BioSeqZip)
-set(bioseqzip_seqan_SOURCE_DIR "${CMAKE_SOURCE_DIR}/../seqan")
+# Use local SeqAn from embedded directory (at ./seqan relative to BioSeqZip)
+set(bioseqzip_seqan_SOURCE_DIR "${CMAKE_SOURCE_DIR}/seqan")
 set(bioseqzip_seqan_POPULATED TRUE)
 list(APPEND
      CMAKE_INCLUDE_PATH
@@ -47,8 +47,8 @@ target_compile_options(BioSeqZip_SeqAn
                        INTERFACE
                        ${SEQAN_SEPARATED_CXX_FLAGS})
 
-# Use local CppUtilities from submodule (at ../cpputils relative to BioSeqZip)
-set(bioseqzip_cpputils_SOURCE_DIR "${CMAKE_SOURCE_DIR}/../cpputils")
+# Use local CppUtilities from embedded directory (at ./cpputils relative to BioSeqZip)
+set(bioseqzip_cpputils_SOURCE_DIR "${CMAKE_SOURCE_DIR}/cpputils")
 set(bioseqzip_cpputils_BINARY_DIR "${CMAKE_BINARY_DIR}/cpputils")
 set(bioseqzip_cpputils_POPULATED TRUE)
 add_subdirectory(${bioseqzip_cpputils_SOURCE_DIR}
