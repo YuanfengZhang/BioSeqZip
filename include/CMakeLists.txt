@@ -3,36 +3,31 @@
 # ----------------------
 #
 # Module for creating the BioSeqZip library core target.
+# Modified to use local submodules instead of FetchContent.
 # ---------------------------------------------------------------------------
 #
 # author : Emanuele Parisi
+# modified by: Yuanfeng Zhang
 # ===========================================================================
-
-include(${CMAKE_SOURCE_DIR}/cmake/FetchContent.cmake)
 
 # ---------------------------------------------------------------------------
 # Retrieve the external projects BioSeqZip depends on.
+# Using local submodules instead of FetchContent for offline builds.
 # ---------------------------------------------------------------------------
 
-# Register SeqAn dependency.
-fetchcontent_declare(bioseqzip_seqan
-                     GIT_REPOSITORY
-                     https://github.com/seqan/seqan.git
-                     GIT_TAG
-                     seqan-v2.4.0)
-fetchcontent_getproperties(bioseqzip_seqan)
-if (NOT bioseqzip_seqan_POPULATED)
-	fetchcontent_populate(bioseqzip_seqan)
-	list(APPEND
-	     CMAKE_INCLUDE_PATH
-	     ${CMAKE_INCLUDE_PATH}
-	     ${bioseqzip_seqan_SOURCE_DIR}/include)
-	set(SEQAN_FIND_DEPENDENCIES
-	    "DEFAULT")
-	find_package(SEQAN
-	             REQUIRED
-	             HINTS ${bioseqzip_seqan_SOURCE_DIR}/util/cmake)
-endif ()
+# Use local SeqAn from embedded directory (at ./seqan relative to BioSeqZip)
+set(bioseqzip_seqan_SOURCE_DIR "${CMAKE_SOURCE_DIR}/seqan")
+set(bioseqzip_seqan_POPULATED TRUE)
+list(APPEND
+     CMAKE_INCLUDE_PATH
+     ${CMAKE_INCLUDE_PATH}
+     ${bioseqzip_seqan_SOURCE_DIR}/include)
+set(SEQAN_FIND_DEPENDENCIES
+    "DEFAULT")
+find_package(SEQAN
+             REQUIRED
+             HINTS ${bioseqzip_seqan_SOURCE_DIR}/util/cmake)
+
 add_library(BioSeqZip_SeqAn
             INTERFACE)
 target_include_directories(BioSeqZip_SeqAn
@@ -52,18 +47,12 @@ target_compile_options(BioSeqZip_SeqAn
                        INTERFACE
                        ${SEQAN_SEPARATED_CXX_FLAGS})
 
-# Register CppUtilities dependency.
-fetchcontent_declare(bioseqzip_cpputils
-                     GIT_REPOSITORY
-                     https://philae.polito.it/gitlab/parisi/cpputils.git
-                     GIT_TAG
-                     v0.1.2.0)
-fetchcontent_getproperties(bioseqzip_cpputils)
-if (NOT bioseqzip_cpputils_POPULATED)
-	fetchcontent_populate(bioseqzip_cpputils)
-	add_subdirectory(${bioseqzip_cpputils_SOURCE_DIR}
-	                 ${bioseqzip_cpputils_BINARY_DIR})
-endif ()
+# Use local CppUtilities from embedded directory (at ./cpputils relative to BioSeqZip)
+set(bioseqzip_cpputils_SOURCE_DIR "${CMAKE_SOURCE_DIR}/cpputils")
+set(bioseqzip_cpputils_BINARY_DIR "${CMAKE_BINARY_DIR}/cpputils")
+set(bioseqzip_cpputils_POPULATED TRUE)
+add_subdirectory(${bioseqzip_cpputils_SOURCE_DIR}
+                 ${bioseqzip_cpputils_BINARY_DIR})
 
 # ---------------------------------------------------------------------------
 # Configure the library global target BioSeqZip::BioSeqZip.

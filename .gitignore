@@ -1,45 +1,29 @@
-# Prerequisites
-*.d
+# Build directories
+build/
+build_*/
 
-# Compiled Object files
-*.slo
-*.lo
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Compiled files
 *.o
-*.obj
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
 *.a
-*.lib
-
-# Executables
+*.so
 *.exe
-*.out
-*.app
 
-# Ignore CLion metadata
-**/.idea
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
 
-# Ignore configure Doxyfile file
-docs/Doxyfile
-
-# Ignore Python scripts cache and .pyc
-tests/data/scripts/__pycache__
-**/*.pyc
-
-# Ignore build directories
-build*/
+# Test outputs
+*.log
